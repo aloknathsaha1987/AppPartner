@@ -1,0 +1,48 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apppartner.androidprogrammertest.LoginActivity">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/include"
+        />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPersonName"
+        android:hint="username"
+        android:background="@color/white"
+        android:ems="10"
+        android:id="@+id/usernameTextView"
+        android:layout_marginTop="163dp"
+        android:layout_below="@+id/include"
+        android:layout_centerHorizontal="true"
+        />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:hint="password"
+        android:background="@color/white"
+        android:ems="10"
+        android:id="@+id/passwordTextView"
+        android:layout_below="@+id/usernameTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_login"
+        android:onClick="sendAsyncPost"
+        android:layout_below="@+id/passwordTextView"
+        android:layout_alignLeft="@+id/passwordTextView"
+        android:layout_alignStart="@+id/passwordTextView"
+        android:layout_marginTop="50dp" />
+
+
+</RelativeLayout>
