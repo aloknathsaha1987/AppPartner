@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="CODING TASKS"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="14pt"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

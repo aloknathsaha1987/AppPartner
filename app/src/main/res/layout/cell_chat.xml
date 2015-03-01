@@ -1,18 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.apppartner.androidprogrammertest.customViews.RoundedImageView
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:id="@+id/circleImageView"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="15dp"
+        />
+
     <TextView
         android:id="@+id/usernameTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/circleImageView"
+        android:layout_toRightOf="@+id/circleImageView"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:text="UserName"
+        android:textSize="12pt"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/messageTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Message Goes In Here"
+        android:singleLine="false"
+        android:layout_below="@+id/usernameTextView"
+        android:layout_toEndOf="@+id/circleImageView"
+        android:layout_toRightOf="@+id/circleImageView"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="9pt"
+        android:textColor="@color/black"
+        />
 
-</LinearLayout>
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.apppartner.androidprogrammertest;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +31,10 @@ public class MainActivity extends ActionBarActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+
+        TextView textView = (TextView)findViewById(R.id.textView);
+        Typeface typeFace= Typeface.createFromAsset(getAssets(), "fonts/Jelloween - Machinato Bold.ttf");
+        textView.setTypeface(typeFace);
 
         try
         {

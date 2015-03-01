@@ -1,9 +1,14 @@
 package com.apppartner.androidprogrammertest;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ListView;
 
@@ -26,6 +31,7 @@ public class ChatActivity extends ActionBarActivity
     private ArrayList<ChatData> chatDataArrayList;
     private ChatsArrayAdapter chatsArrayAdapter;
     private ListView listView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +39,13 @@ public class ChatActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_chat);
+
+        toolbar = (Toolbar)findViewById(R.id.include);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Chat");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#C8000000")));
+
 
         listView = (ListView) findViewById(R.id.listView);
         chatDataArrayList = new ArrayList<ChatData>();
@@ -60,10 +73,23 @@ public class ChatActivity extends ActionBarActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
+
+    @Override
     public void onBackPressed()
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     private String loadChatFile() throws IOException

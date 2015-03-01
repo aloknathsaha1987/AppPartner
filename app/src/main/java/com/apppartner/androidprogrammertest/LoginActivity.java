@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
@@ -40,8 +42,10 @@ public class LoginActivity extends ActionBarActivity
     private Toolbar toolbar;
     private String username;
     private String password;
+    private EditText text;
     private AuthenticationDetails authenticationDetails;
     private Map<String, String> credentials = new HashMap<>();
+    private ProgressDialog progressDialog;
     public static String URI = "http://dev.apppartner.com/AppPartnerProgrammerTest/scripts/login.php";
 
     private AlertDialog.Builder alertDialog;
@@ -57,13 +61,23 @@ public class LoginActivity extends ActionBarActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
+        TextView textView = (TextView)findViewById(R.id.usernameTextView);
+        Typeface typeFace= Typeface.createFromAsset(getAssets(), "fonts/Jelloween - Machinato.ttf");
+        textView.setTypeface(typeFace);
+
+        textView = (TextView)findViewById(R.id.passwordTextView);
+        typeFace= Typeface.createFromAsset(getAssets(), "fonts/Jelloween - Machinato.ttf");
+        textView.setTypeface(typeFace);
+
         alertDialog = new AlertDialog.Builder(this);
+        progressDialog = new ProgressDialog(LoginActivity.this);
 
         toolbar = (Toolbar)findViewById(R.id.include);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Login");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#555555")));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8C000000")));
+
 
         try {
             view = getWindow().getDecorView().findViewById(android.R.id.content);
@@ -113,7 +127,7 @@ public class LoginActivity extends ActionBarActivity
 
     public void sendAsyncPost(View v){
 
-        EditText text = (EditText)findViewById(R.id.usernameTextView);
+        text = (EditText)findViewById(R.id.usernameTextView);
         username = text.getText().toString();
         text = (EditText)findViewById(R.id.passwordTextView);
         password = text.getText().toString();
@@ -128,10 +142,7 @@ public class LoginActivity extends ActionBarActivity
             credentials.put("username", username);
             credentials.put("password", password);
             AuthorizeCredentialsAsyncTask asyncTask = new AuthorizeCredentialsAsyncTask();
-
             asyncTask.execute(credentials);
-
-            generateDialog();
         }
     }
 
@@ -155,8 +166,6 @@ public class LoginActivity extends ActionBarActivity
 
     private class AuthorizeCredentialsAsyncTask extends AsyncTask<Map<String, String>, Void , AuthenticationDetails>{
 
-        private ProgressDialog progressDialog;
-
         public AuthorizeCredentialsAsyncTask (){
 
         }
@@ -166,8 +175,6 @@ public class LoginActivity extends ActionBarActivity
             super.onPreExecute();
 
             startTime = System.currentTimeMillis() % 1000;
-
-            progressDialog = new ProgressDialog(LoginActivity.this);
             progressDialog.setMessage("Authenticating User Credentials");
             progressDialog.setIndeterminate(true);
             progressDialog.show();
@@ -190,6 +197,7 @@ public class LoginActivity extends ActionBarActivity
             timeElapsed = stopTime - startTime;
             authenticationDetails = details;
             authenticationDetails.setTime(timeElapsed);
+            generateDialog();
         }
     }
 }
