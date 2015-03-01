@@ -3,12 +3,15 @@ package com.apppartner.androidprogrammertest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -119,6 +122,16 @@ public class LoginActivity extends ActionBarActivity
         return true;
     }
 
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void onBackPressed()
     {
@@ -127,22 +140,27 @@ public class LoginActivity extends ActionBarActivity
 
     public void sendAsyncPost(View v){
 
-        text = (EditText)findViewById(R.id.usernameTextView);
-        username = text.getText().toString();
-        text = (EditText)findViewById(R.id.passwordTextView);
-        password = text.getText().toString();
+        if(isOnline()) {
 
-        if(username.length() == 0){
-            Toast.makeText(this, "Enter User Name", Toast.LENGTH_SHORT).show();
-        }else if (password.length() == 0){
-            Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
-        }else{
+            text = (EditText) findViewById(R.id.usernameTextView);
+            username = text.getText().toString();
+            text = (EditText) findViewById(R.id.passwordTextView);
+            password = text.getText().toString();
 
-            // Call the Async Task to verify the authorization credentials
-            credentials.put("username", username);
-            credentials.put("password", password);
-            AuthorizeCredentialsAsyncTask asyncTask = new AuthorizeCredentialsAsyncTask();
-            asyncTask.execute(credentials);
+            if (username.length() == 0) {
+                Toast.makeText(this, "Enter User Name", Toast.LENGTH_SHORT).show();
+            } else if (password.length() == 0) {
+                Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
+            } else {
+
+                // Call the Async Task to verify the authorization credentials
+                credentials.put("username", username);
+                credentials.put("password", password);
+                AuthorizeCredentialsAsyncTask asyncTask = new AuthorizeCredentialsAsyncTask();
+                asyncTask.execute(credentials);
+            }
+        }else {
+            Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
         }
     }
 

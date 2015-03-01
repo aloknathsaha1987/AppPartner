@@ -1,8 +1,11 @@
 package com.apppartner.androidprogrammertest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.apppartner.androidprogrammertest.adapters.ChatsArrayAdapter;
 import com.apppartner.androidprogrammertest.models.ChatData;
@@ -46,30 +50,39 @@ public class ChatActivity extends ActionBarActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#C8000000")));
 
+        if (isOnline()) {
+            listView = (ListView) findViewById(R.id.listView);
+            chatDataArrayList = new ArrayList<ChatData>();
 
-        listView = (ListView) findViewById(R.id.listView);
-        chatDataArrayList = new ArrayList<ChatData>();
+            try {
+                String chatFileData = loadChatFile();
+                JSONObject jsonData = new JSONObject(chatFileData);
+                JSONArray jsonArray = jsonData.getJSONArray("data");
 
-        try
-        {
-            String chatFileData = loadChatFile();
-            JSONObject jsonData = new JSONObject(chatFileData);
-            JSONArray jsonArray = jsonData.getJSONArray("data");
-
-            for (int i = 0; i < jsonArray.length(); i++)
-            {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                ChatData chatData = new ChatData(jsonObject);
-                chatDataArrayList.add(chatData);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    ChatData chatData = new ChatData(jsonObject);
+                    chatDataArrayList.add(chatData);
+                }
+            } catch (Exception e) {
+                Log.w(LOG_TAG, e);
             }
-        }
-        catch (Exception e)
-        {
-            Log.w(LOG_TAG, e);
-        }
 
-        chatsArrayAdapter = new ChatsArrayAdapter(this, chatDataArrayList);
-        listView.setAdapter(chatsArrayAdapter);
+            chatsArrayAdapter = new ChatsArrayAdapter(this, chatDataArrayList);
+            listView.setAdapter(chatsArrayAdapter);
+        }else {
+            Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

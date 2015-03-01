@@ -1,10 +1,41 @@
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.apppartner.androidprogrammertest.AnimationActivity">
+    tools:context="com.apppartner.androidprogrammertest.AnimationActivity"
+    android:animateLayoutChanges="true">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar"
+        android:id="@+id/include"/>
+    
+    <ImageView
+        android:id="@+id/imageView_container"
+        android:layout_width="325dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp" />
 
-</RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="200dp" />
+
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_animation"
+        android:onClick="animate"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="475dp"
+        />
+
+
+</FrameLayout>
